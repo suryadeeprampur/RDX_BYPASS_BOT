@@ -13,9 +13,13 @@ RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /
 
 # Install Python dependencies
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt flask gunicorn
 
 # Copy application code
 COPY . .
 
-CMD ["bash", "start.sh"]
+# Expose Render PORT
+EXPOSE 5000
+
+# Start using Gunicorn (runs Flask) and your bot in one process
+CMD ["python3", "main.py"]
